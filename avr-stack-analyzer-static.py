@@ -1,3 +1,23 @@
+"""
+# Instalēt the AVR toolchain
+sudo apt install gcc-avr binutils-avr avr-libc
+
+# Instalēt Python
+sudo apt install python3 python3-pip
+
+avr-gcc --version
+avr-objdump --version
+avr-size --version
+python3 --version
+
+python3 recursive-stack-analyzer-fixed.py program.c -m atmega328p -f text -l en
+
+-m or --mcu norāda mikrokontrolleru tipu (noklusējums: atmega328p)
+-f or --format norāda izvades formātu (text vai json)
+-l or --language norāda izvades valodu (en vai lv)
+-c or --compiler-flags ļauj nodot papildu kompilatora karogus
+"""
+
 import subprocess
 import re
 import os
@@ -266,7 +286,7 @@ class AVRCStackAnalyzer:
         for match in assign_pattern.finditer(self.source_content):
             var_name, value = match.groups()
             try:
-                # Convert the value string to an integer
+                # Pārveido vērtības virkni par integer
                 variable_values[var_name] = int(value)
                 logger.info(f"Found variable assignment: {var_name} = {value}")
             except ValueError:
