@@ -10,7 +10,7 @@ avr-objdump --version
 avr-size --version
 python3 --version
 
-python3 recursive-stack-analyzer-fixed.py program.c -m atmega328p -f text -l en
+python3 avr-stack-analyzer-static.py program.c -m atmega328p -f text -l en
 
 -m or --mcu norāda mikrokontrolleru tipu (noklusējums: atmega328p)
 -f or --format norāda izvades formātu (text vai json)
