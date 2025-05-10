@@ -35,6 +35,190 @@ logging.basicConfig(
 )
 logger = logging.getLogger('avr_stack_analyzer')
 
+def get_simple_mcu_properties():
+    """Atgriež vienkāršotu mikrokontrolieru RAM izmēru vārdnīcu."""
+    return {
+        # ATmega sērija
+        "atmega48": {"ram_size": 512},
+        "atmega48a": {"ram_size": 512},
+        "atmega48p": {"ram_size": 512},
+        "atmega48pa": {"ram_size": 512},
+        "atmega48pb": {"ram_size": 512},
+        "atmega8": {"ram_size": 1024},
+        "atmega8a": {"ram_size": 1024},
+        "atmega88": {"ram_size": 1024},
+        "atmega88a": {"ram_size": 1024},
+        "atmega88p": {"ram_size": 1024},
+        "atmega88pa": {"ram_size": 1024},
+        "atmega88pb": {"ram_size": 1024},
+        "atmega16": {"ram_size": 1024},
+        "atmega16a": {"ram_size": 1024},
+        "atmega16u4": {"ram_size": 1280},
+        "atmega32u4": {"ram_size": 2560},
+        "atmega168": {"ram_size": 1024},
+        "atmega168a": {"ram_size": 1024},
+        "atmega168p": {"ram_size": 1024},
+        "atmega168pa": {"ram_size": 1024},
+        "atmega168pb": {"ram_size": 1024},
+        "atmega32": {"ram_size": 2048},
+        "atmega32a": {"ram_size": 2048},
+        "atmega328": {"ram_size": 2048},
+        "atmega328p": {"ram_size": 2048},
+        "atmega328pb": {"ram_size": 2048},
+        "atmega64": {"ram_size": 4096},
+        "atmega64a": {"ram_size": 4096},
+        "atmega128": {"ram_size": 4096},
+        "atmega128a": {"ram_size": 4096},
+        "atmega164a": {"ram_size": 1024},
+        "atmega164p": {"ram_size": 1024},
+        "atmega164pa": {"ram_size": 1024},
+        "atmega324a": {"ram_size": 2048},
+        "atmega324p": {"ram_size": 2048},
+        "atmega324pa": {"ram_size": 2048},
+        "atmega324pb": {"ram_size": 2048},
+        "atmega640": {"ram_size": 8192},
+        "atmega644": {"ram_size": 4096},
+        "atmega644a": {"ram_size": 4096},
+        "atmega644p": {"ram_size": 4096},
+        "atmega644pa": {"ram_size": 4096},
+        "atmega1280": {"ram_size": 8192},
+        "atmega1281": {"ram_size": 8192},
+        "atmega1284": {"ram_size": 16384},
+        "atmega1284p": {"ram_size": 16384},
+        "atmega2560": {"ram_size": 8192},
+        "atmega2561": {"ram_size": 8192},
+        
+        # ATtiny sērija
+        "attiny4": {"ram_size": 32},
+        "attiny5": {"ram_size": 32},
+        "attiny9": {"ram_size": 32},
+        "attiny10": {"ram_size": 32},
+        "attiny13": {"ram_size": 64},
+        "attiny13a": {"ram_size": 64},
+        "attiny20": {"ram_size": 128},
+        "attiny24": {"ram_size": 128},
+        "attiny24a": {"ram_size": 128},
+        "attiny25": {"ram_size": 128},
+        "attiny40": {"ram_size": 256},
+        "attiny43u": {"ram_size": 256},
+        "attiny44": {"ram_size": 256},
+        "attiny44a": {"ram_size": 256},
+        "attiny45": {"ram_size": 256},
+        "attiny84": {"ram_size": 512},
+        "attiny84a": {"ram_size": 512},
+        "attiny85": {"ram_size": 512},
+        "attiny102": {"ram_size": 32},
+        "attiny104": {"ram_size": 32},
+        "attiny167": {"ram_size": 512},
+        "attiny202": {"ram_size": 128},
+        "attiny204": {"ram_size": 128},
+        "attiny261": {"ram_size": 128},
+        "attiny261a": {"ram_size": 128},
+        "attiny402": {"ram_size": 256},
+        "attiny404": {"ram_size": 256},
+        "attiny406": {"ram_size": 256},
+        "attiny412": {"ram_size": 256},
+        "attiny414": {"ram_size": 256},
+        "attiny416": {"ram_size": 256},
+        "attiny417": {"ram_size": 256},
+        "attiny441": {"ram_size": 256},
+        "attiny461": {"ram_size": 256},
+        "attiny461a": {"ram_size": 256},
+        "attiny804": {"ram_size": 512},
+        "attiny806": {"ram_size": 512},
+        "attiny807": {"ram_size": 512},
+        "attiny814": {"ram_size": 512},
+        "attiny816": {"ram_size": 512},
+        "attiny817": {"ram_size": 512},
+        "attiny828": {"ram_size": 512},
+        "attiny841": {"ram_size": 512},
+        "attiny861": {"ram_size": 512},
+        "attiny861a": {"ram_size": 512},
+        "attiny1604": {"ram_size": 1024},
+        "attiny1606": {"ram_size": 1024},
+        "attiny1607": {"ram_size": 1024},
+        "attiny1614": {"ram_size": 2048},
+        "attiny1616": {"ram_size": 2048},
+        "attiny1617": {"ram_size": 2048},
+        "attiny3216": {"ram_size": 2048},
+        "attiny3217": {"ram_size": 2048},
+        
+        # ATmega0/1 sērija
+        "atmega808": {"ram_size": 1024},
+        "atmega809": {"ram_size": 1024},
+        "atmega1608": {"ram_size": 2048},
+        "atmega1609": {"ram_size": 2048},
+        "atmega3208": {"ram_size": 4096},
+        "atmega3209": {"ram_size": 4096},
+        "atmega4808": {"ram_size": 6144},
+        "atmega4809": {"ram_size": 6144},
+        
+        # AT90 sērija
+        "at90s1200": {"ram_size": 0},
+        "at90s2313": {"ram_size": 128},
+        "at90s2323": {"ram_size": 128},
+        "at90s2333": {"ram_size": 128},
+        "at90s2343": {"ram_size": 128},
+        "at90s4414": {"ram_size": 256},
+        "at90s4433": {"ram_size": 128},
+        "at90s4434": {"ram_size": 256},
+        "at90s8515": {"ram_size": 512},
+        "at90s8535": {"ram_size": 512},
+        "at90usb162": {"ram_size": 512},
+        "at90usb646": {"ram_size": 4096},
+        "at90usb647": {"ram_size": 4096},
+        "at90usb1286": {"ram_size": 8192},
+        "at90usb1287": {"ram_size": 8192},
+        "at90can32": {"ram_size": 2048},
+        "at90can64": {"ram_size": 4096},
+        "at90can128": {"ram_size": 4096},
+        "at90pwm1": {"ram_size": 512},
+        "at90pwm2": {"ram_size": 512},
+        "at90pwm3": {"ram_size": 512},
+        "at90pwm81": {"ram_size": 256},
+        "at90pwm161": {"ram_size": 512},
+        "at90pwm216": {"ram_size": 1024},
+        "at90pwm316": {"ram_size": 1024},
+        
+        # Retie/specializētie AVR modeļi
+        "atmega8515": {"ram_size": 512},
+        "atmega8535": {"ram_size": 512},
+        "atmega103": {"ram_size": 4000},
+        "atmega161": {"ram_size": 1024},
+        "atmega162": {"ram_size": 1024},
+        "atmega163": {"ram_size": 1024},
+        "atmega165": {"ram_size": 1024},
+        "atmega165a": {"ram_size": 1024},
+        "atmega165p": {"ram_size": 1024},
+        "atmega165pa": {"ram_size": 1024},
+        "atmega169": {"ram_size": 1024},
+        "atmega169a": {"ram_size": 1024},
+        "atmega169p": {"ram_size": 1024},
+        "atmega169pa": {"ram_size": 1024},
+        "atmega323": {"ram_size": 2048},
+        "atmega329": {"ram_size": 2048},
+        "atmega329a": {"ram_size": 2048},
+        "atmega329p": {"ram_size": 2048},
+        "atmega329pa": {"ram_size": 2048},
+        "atmega649": {"ram_size": 4096},
+        "atmega649a": {"ram_size": 4096},
+        "atmega649p": {"ram_size": 4096},
+        "atmega3250": {"ram_size": 2048},
+        "atmega3250a": {"ram_size": 2048},
+        "atmega3250p": {"ram_size": 2048},
+        "atmega3250pa": {"ram_size": 2048},
+        "atmega3290": {"ram_size": 2048},
+        "atmega3290a": {"ram_size": 2048},
+        "atmega3290p": {"ram_size": 2048},
+        "atmega3290pa": {"ram_size": 2048},
+        "atmega6450": {"ram_size": 4096},
+        "atmega6450a": {"ram_size": 4096},
+        "atmega6450p": {"ram_size": 4096},
+        "atmega6490": {"ram_size": 4096},
+        "atmega6490a": {"ram_size": 4096},
+        "atmega6490p": {"ram_size": 4096},
+    }
+
 class AVRCStackAnalyzer:
     """Steka izmantojuma analizators AVR mikrokontrolieriem, pieņemot C kodu."""
     
@@ -122,11 +306,7 @@ class AVRCStackAnalyzer:
     def get_mcu_properties(self, mcu_type):
         """Iegūst norādītā mikrokontroliera atmiņas īpašības."""
         # Var paplašināt ar vairākiem mikrokontroliera vai ielādēt no konfigurācijas faila
-        mcu_properties = {
-            "atmega328p": {"ram_size": 2048, "ram_start": 0x100, "stack_top": 0x08FF},
-            "atmega2560": {"ram_size": 8192, "ram_start": 0x200, "stack_top": 0x21FF},
-            "attiny85": {"ram_size": 512, "ram_start": 0x60, "stack_top": 0x025F},
-        }
+        mcu_properties = get_simple_mcu_properties()
         
         if mcu_type not in mcu_properties:
             logger.warning(f"Unknown MCU type: {mcu_type}. Using atmega328p as default.")
@@ -337,9 +517,12 @@ class AVRCStackAnalyzer:
         """
         Precīzi nosaka, vai funkcija patiešām izsauc pati sevi tieši. Pārbauda tieši funkcijas izsaukuma rakstus, ne tikai nosaukuma parādīšanos.
         """
+
+        reduction_info = {"type": "unknown", "value": 1}  # Noklusējums
+        
         # Izlaiž, ja nav avota satura
         if not self.source_content:
-            return False
+            return False, reduction_info
             
         # Izveido modeli, lai atrastu funkcijas definīciju un tās ķermeni
         func_def_pattern = re.compile(r'(?:\w+\s+)+' + re.escape(func_name) + r'\s*\([^)]*\)\s*{', re.DOTALL)
@@ -347,7 +530,7 @@ class AVRCStackAnalyzer:
         # Meklē funkcijas definīciju
         match = func_def_pattern.search(self.source_content)
         if not match:
-            return False
+            return False, reduction_info
             
         # Iegūst funkcijas sākumu
         start_pos = match.start()
@@ -369,9 +552,9 @@ class AVRCStackAnalyzer:
         
         if end_pos is None:
             # Nevarēja atrast funkcijas beigas
-            return False
+            return False, reduction_info
             
-        # Iegūstiet visu funkcijas ķermeni
+        # Iegūst visu funkcijas ķermeni
         function_body = self.source_content[start_pos:end_pos]
         
         # Meklē funkciju izsaukuma modeļus — nosaukums un tam seko atvērtās iekavas, 
@@ -382,33 +565,64 @@ class AVRCStackAnalyzer:
         # Izvelk tikai funkcijas ķermeni, neietverot deklarāciju
         first_brace_pos = function_body.find('{')
         if first_brace_pos == -1:
-            return False
+            return False, reduction_info
             
         actual_body = function_body[first_brace_pos:]
         
         # Meklē paša izsaukumu funkcijas ķermenī
-        if call_pattern.search(actual_body):
-            logger.info(f"Confirmed function '{func_name}' directly calls itself (truly recursive)")
-            return True
+        if not call_pattern.search(actual_body):
+            return False, reduction_info
             
-        return False
+        # Funkcija ir rekursīva, tagad meklējam samazināšanas veidu
+        # Meklējam dažādus rekursijas šablonus
+        # Samazināšana par skaitlisku konstanti: if (x > 0) { func(x - N); }
+        # Meklē kodā, kur viena un tā pati mainīgā vērtība tiek pārbaudīta (>0) un pēc tam samazināta par N izsaucot funkciju
+        pattern1 = re.compile(r'if\s*\(\s*(\w+)\s*>\s*0\s*\)\s*{[^{}]*\b' + re.escape(func_name) + r'\s*\(\s*\1\s*-\s*(\d+)\s*\)', re.DOTALL)
+
+        # Dalīšana ar skaitli: if (x > 1) { func(x / N); }
+        # Meklē kodā, kur viena un tā pati mainīgā vērtība tiek pārbaudīta (>X) un pēc tam dalīta ar N izsaucot funkciju
+        pattern2 = re.compile(r'if\s*\(\s*(\w+)\s*>\s*\d+\s*\)\s*{[^{}]*\b' + re.escape(func_name) + r'\s*\(\s*\1\s*\/\s*(\d+)\s*\)', re.DOTALL)
+
+        # Bitu bīdīšana pa labi (dalīšana ar 2^N): if (x > 1) { func(x >> N); }
+        # Meklē kodā, kur viena un tā pati mainīgā vērtība tiek pārbaudīta (>X) un pēc tam bīdīta pa N bitiem (kas atbilst dalīšanai ar 2^N) izsaucot funkciju
+        pattern3 = re.compile(r'if\s*\(\s*(\w+)\s*>\s*\d+\s*\)\s*{[^{}]*\b' + re.escape(func_name) + r'\s*\(\s*\1\s*>>\s*(\d+)\s*\)', re.DOTALL)
+
+        # Meklējam katru šablonu
+        if pattern1.search(actual_body):
+            match = pattern1.search(actual_body)
+            reduction_info["type"] = "subtraction"
+            reduction_info["value"] = int(match.group(2))
+            logger.info(f"Function '{func_name}' uses subtraction by {reduction_info['value']} in recursion")
+        elif pattern2.search(actual_body):
+            match = pattern2.search(actual_body)
+            reduction_info["type"] = "division"
+            reduction_info["value"] = int(match.group(2))
+            logger.info(f"Function '{func_name}' uses division by {reduction_info['value']} in recursion")
+        elif pattern3.search(actual_body):
+            match = pattern3.search(actual_body)
+            reduction_info["type"] = "division"
+            reduction_info["value"] = 2 ** int(match.group(2))  # >> 1 nozīmē dalīšanu ar 2, >> 2 nozīmē dalīšanu ar 4, utt.
+            logger.info(f"Function '{func_name}' uses bit shift (division by {reduction_info['value']}) in recursion")
+        
+        logger.info(f"Confirmed function '{func_name}' directly calls itself (truly recursive) with reduction type: {reduction_info['type']}")
+        return True, reduction_info
     
     def detect_recursive_functions_from_source(self, gcc_stack_usage):
         """
-        Analizē pirmkodu, lai noteiktu rekursīvās funkcijas.
-        Šī pieeja ir uzticamāka nekā rekursijas meklēšana assemblerī.
+        Analizē pirmkodu, lai noteiktu rekursīvās funkcijas un to samazināšanas veidus.
         
         Atgriež:
-            Rekursīvu funkciju nosaukumu kopu.
+            Tuple (set, dict): (rekursīvās_funkcijas, funkciju_samazināšanas_info)
         """
         recursive_funcs = set()
+        reduction_info = {}
         
         # Iegūst sarakstu ar visām funkcijām, par kurām paziņo GCC
         known_functions = list(gcc_stack_usage.keys())
         
         # Izlaiž, ja nav avota satura
         if not self.source_content:
-            return recursive_funcs
+            return recursive_funcs, reduction_info
         
         logger.info("Analyzing source code for recursive functions...")
         
@@ -418,30 +632,22 @@ class AVRCStackAnalyzer:
             if func_name == 'main':
                 continue
                 
-            # Pārbauda, vai funkcija tieši izsauc sevi
-            if self.function_calls_itself(func_name):
+            # Pārbauda, vai funkcija tieši izsauc sevi un iegūst samazināšanas informāciju
+            is_recursive, func_reduction_info = self.function_calls_itself(func_name)
+            if is_recursive:
                 recursive_funcs.add(func_name)
+                reduction_info[func_name] = func_reduction_info
         
-        # Šablons priekš klasiskās rekursijas samazināšanas šablona 
-        # Tas meklē: if (x > 0) { func(x - 1); }
-        recursive_pattern = re.compile(r'if\s*\(\s*(\w+)\s*>\s*0\s*\)\s*{[^{}]*\b(\w+)\s*\(\s*\1\s*-\s*1\s*\)', re.DOTALL)
-        
-        for match in recursive_pattern.finditer(self.source_content):
-            param_name, func_name = match.groups()
-            if func_name != 'main' and func_name in gcc_stack_usage and func_name not in recursive_funcs:
-                # Dubultpārbaude, vai tas ir funkcijas ķermenī
-                if self.function_calls_itself(func_name):
-                    recursive_funcs.add(func_name)
-                    logger.info(f"Found recursive function with decremented parameter: {func_name}")
-        
-        return recursive_funcs
+        return recursive_funcs, reduction_info
 
-    def find_recursive_call_limits(self, recursive_functions):
+    def find_recursive_call_limits(self, recursive_functions, reduction_info):
         """
         Nosaka maksimālo rekursijas dziļumu rekursīvajām funkcijām, pārbaudot avota kodu.
-        
+        Ņem vērā dažādus samazināšanas veidus.
+    
         Argumenti:
             recursive_functions: funkciju nosaukumu kopa, kas ir rekursīvi.
+            reduction_info: vārdnīca ar funkciju samazināšanas informāciju.
 
         Atgriež:
             Vārdnīcas kartēšanas funkciju nosaukumus līdz to maksimālajam rekursijas dziļumam.
@@ -487,10 +693,33 @@ class AVRCStackAnalyzer:
             
             # Nosaka maksimālo dziļumu, pamatojoties uz lielāko sākotnējo vērtību
             if initial_values:
-                # Pievieno 1, lai ņemtu vērā bāzes gadījumu (0 līmeni)
-                max_depth = max(initial_values) + 1
+                max_initial_value = max(initial_values)
+
+                # Iegūst samazināšanas informāciju
+                func_reduction_info = reduction_info.get(func, {"type": "unknown", "value": 1})
+
+                # Aprēķina dziļumu atkarībā no samazināšanas veida
+                if func_reduction_info["type"] == "subtraction":
+                    # Lineāra samazināšana: katrs izsaukums samazina par N
+                    # Kopējais izsaukumu skaits = (sākotnējā vērtība / samazināšanas vērtība) + 1 bāzes gadījumam
+                    max_depth = (max_initial_value // func_reduction_info["value"]) + 1
+                    logger.info(f"Calculating recursion depth for {func} using subtraction by {func_reduction_info['value']}")
+                elif func_reduction_info["type"] == "division":
+                    # Logaritmiska samazināšana: katrs izsaukums dala ar N
+                    # Kopējais izsaukumu skaits = log(sākotnējā_vērtība) ar bāzi N + 1 bāzes gadījumam
+                    import math
+                    if max_initial_value > 0 and func_reduction_info["value"] > 1:
+                        max_depth = int(math.log(max_initial_value, func_reduction_info["value"])) + 1
+                    else:
+                        max_depth = max_initial_value + 1  # Noklusējuma gadījumā
+                    logger.info(f"Calculating recursion depth for {func} using division by {func_reduction_info['value']}")
+                else:
+                    # Noklusējuma gadījumā pieņemam samazināšanu par 1
+                    max_depth = max_initial_value + 1
+                    logger.info(f"Using default recursion depth calculation for {func}")
+
                 recursion_limits[func] = max_depth
-                logger.info(f"Set recursion limit for {func} to {max_depth} (initial value {max(initial_values)} + 1)")
+                logger.info(f"Set recursion limit for {func} to {max_depth} (initial value {max_initial_value}, reduction type: {func_reduction_info['type']})")
         
         return recursion_limits
 
@@ -520,10 +749,10 @@ class AVRCStackAnalyzer:
         logger.info(f"{self._('static_analysis')}: Analyzing stack operations...")
         
         # Pirmkārt, atklāj rekursīvās funkcijas no avota koda - tas ir precīzāk
-        recursive_functions = self.detect_recursive_functions_from_source(gcc_stack_usage)
+        recursive_functions, reduction_info = self.detect_recursive_functions_from_source(gcc_stack_usage)
         
-        # Atrod rekursijas ierobežojumus visām rekursīvajām funkcijām
-        recursion_limits = self.find_recursive_call_limits(recursive_functions)
+        # Atrod rekursijas ierobežojumus visām rekursīvajām funkcijām, ņemot vērā samazināšanas veidus
+        recursion_limits = self.find_recursive_call_limits(recursive_functions, reduction_info)
         
         # Iegūst funkcijas no disasamblešanas
         function_pattern = re.compile(r'^[0-9a-f]+ <([^>]+)>:')
@@ -616,6 +845,8 @@ class AVRCStackAnalyzer:
         if self.is_infinite_loop_function('main') and 'main' in recursive_functions:
             logger.info("Removing 'main' from recursive functions as it contains an infinite loop")
             recursive_functions.remove('main')
+            if 'main' in reduction_info:
+                del reduction_info['main']
         
         # Manuāli koriģē izsaukumu grafiku 'main' funkcijai
         # Pārbauda 'main' funkcijas saturu, vai tajā ir izsaukumi uz zināmām funkcijām
@@ -643,9 +874,10 @@ class AVRCStackAnalyzer:
         # Pierakstā rekursīvās funkcijas un to ierobežojumus
         logger.info(f"Detected recursive functions: {recursive_functions}")
         logger.info(f"Recursion limits: {recursion_limits}")
+        logger.info(f"Reduction info: {reduction_info}")
         
         # Analizē maksimālo steka dziļumu
-        max_stack_usage = self.calculate_max_stack_usage(function_stack_usage, complete_call_graph, recursive_functions, recursion_limits)
+        max_stack_usage = self.calculate_max_stack_usage(function_stack_usage, complete_call_graph, recursive_functions, recursion_limits, reduction_info)
         
         # Pievieno drošības rezervi (15%)
         safe_max_stack_usage = int(max_stack_usage * 1.15)
@@ -657,18 +889,19 @@ class AVRCStackAnalyzer:
             'function_usage': function_stack_usage,
             'call_graph': complete_call_graph,
             'recursive_functions': list(recursive_functions),
-            'recursion_limits': recursion_limits
+            'recursion_limits': recursion_limits,
+            'reduction_info': {func: info for func, info in reduction_info.items()}  # Pārveidojam vārdnīcu, lai to varētu serializēt JSON
         }
         
         return analysis_results
 
-    def calculate_max_stack_usage(self, function_stack_usage, call_graph, recursive_functions, recursion_limits):
+    def calculate_max_stack_usage(self, function_stack_usage, call_graph, recursive_functions, recursion_limits, reduction_info):
         """
         Aprēķina maksimālo steka izmantojumu, ņemot vērā rekursīvos izsaukumus.
         
-        Fiksēts algoritms, kas pareizi apstrādā rekursijas dziļumus un uzkrāj steka lietojumu, izmantojot izsaukumu ķēdi.
+        Algoritms, kas apstrādā rekursijas dziļumus un uzkrāj steka lietojumu, izmantojot izsaukumu ķēdi.
         """
-        logger.info("Calculating maximum stack usage with enhanced recursive handling...")
+        logger.info("Calculating maximum stack usage...")
         
         # Steka izmantojuma izsekošanas atkļūdošana
         logger.debug(f"Function stack usage: {function_stack_usage}")
@@ -732,7 +965,8 @@ class AVRCStackAnalyzer:
             # Ja tas ir rekursīvs funkcija, izmantojam iepriekš aprēķināto kopējo rekursīvo steku
             if func_name in recursive_functions and func_name not in call_path:
                 total_usage = recursive_stack[func_name]
-                logger.debug(f"{'  ' * depth}Recursive function {func_name}: using pre-calculated total recursive stack {total_usage}")
+                func_reduction_info = reduction_info.get(func_name, {"type": "unknown", "value": 1})
+                logger.debug(f"{'  ' * depth}Recursive function {func_name} with {func_reduction_info['type']} reduction: using pre-calculated total recursive stack {total_usage}")
                 
                 # Pieraksta memoizācijas kešā
                 memo[cache_key] = total_usage
@@ -754,7 +988,7 @@ class AVRCStackAnalyzer:
                     continue
                 
                 # Aprēķina steku šim izsaukumam
-                call_overhead = 2  # Atgriešanās adrese (2 biti AVR)
+                call_overhead = 2  # Atgriešanās adrese (2 biti)
                 
                 # Aprēķina steku šim izsaukumam
                 called_stack = get_stack_usage(called_func, new_path, depth + 1)
