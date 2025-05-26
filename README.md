@@ -1,3 +1,7 @@
+# AVR Steka Analizators
+### Statiskais steka izmantojuma analizators AVR mikrokontrolieriem
+Visaptverošs rīks AVR mikrokontrolieru programmu steka atmiņas izmantojuma analīzei bez koda izpildes. Izstrādāts, lai palīdzētu iegulto sistēmu izstrādātājiem novērst steka pārplūdes problēmas resursu ierobežotās vidēs.
+
 # Instalēt the AVR toolchain
 ```bash
 sudo apt install gcc-avr binutils-avr avr-libc
@@ -59,6 +63,12 @@ Rekursīvas delay_function tests ar lokālo masīvu un parametru atkarīgu rekur
 Visaptverošs rekursijas testa komplekts ar sešām dažādām rekursīvām funkcijām, kas implementē dažādus samazināšanas modeļus: atskaitīšanu (n-1, n-3), dalīšanu (n/2, n/4), un bitu nobīdes (n>>1, n>>3). Tests pārbauda analizatora spēju atpazīt un pareizi klasificēt dažādus rekursijas tipus.
 
 # Veic AVR steka analizatora analīzi visiem C failiem un izvada kompaktu pārskatu
+Šis skripts automātiski izpilda AVR steka analizatoru visiem C failiem direktorijā un izvada kompaktu rezultātu pārskatu.
 ```bash
 python3 test.py
 ```
+
+# Informācija par darbu
+Izstrādāts kā bakalaura darbs Ventspils Augstskolai 2025.  
+Autors: Anatolijs Koļesņevs  
+Zinātniskais vadītājs: Mg.sc.ing. Jānis Šmēdiņš  
