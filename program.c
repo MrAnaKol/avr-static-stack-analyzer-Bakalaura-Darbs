@@ -1,3 +1,4 @@
+
 #include <avr/io.h>
 #include <util/delay.h>
 
@@ -21,7 +22,11 @@ int main(void) {
 
     while (1) {
         PORTB ^= (1 << PB0); // pārslēdz LED stāvokli
-        delay_function(3);   // izsauc funkciju, kas izmanto steku
+        int a = 3;
+        delay_function(a);   // izsauc funkciju, kas izmanto steku
         _delay_ms(500);
     }
 }
+
+// Izmantojot .su failu un manuāli aprēķinot garāko ceļu, maksimālais steka patēriņš ir 180 baiti
+// Izmantojot avr-size priekš elf faila un manuāli saskaitot .data un .bss, maksimālais patēriņš ir 0 baiti

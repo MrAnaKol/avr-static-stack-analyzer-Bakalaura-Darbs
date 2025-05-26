@@ -75,3 +75,6 @@ int main(void) {
     
     return 0;
 }
+
+// Izmantojot .su failu un manuāli aprēķinot garāko ceļu, maksimālais steka patēriņš ir 12 baiti
+// Izmantojot avr-size priekš elf faila un manuāli saskaitot .data un .bss, maksimālais patēriņš ir 0 baiti
