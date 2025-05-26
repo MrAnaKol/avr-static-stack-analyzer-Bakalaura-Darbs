@@ -69,6 +69,6 @@ python3 test.py
 ```
 
 # Informācija par darbu
-Izstrādāts kā bakalaura darbs Ventspils Augstskolai 2025.
+Izstrādāts kā bakalaura darbs Ventspils Augstskolai 2025.  
 Autors: Anatolijs Koļesņevs  
 Zinātniskais vadītājs: Mg.sc.ing. Jānis Šmēdiņš  
