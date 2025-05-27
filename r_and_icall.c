@@ -1,54 +1,54 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
-// Funkciju prototipi
+// Function prototypes
 void led_on(void);
 void led_off(void);
 void delay_ms(uint16_t ms);
 
-// Funkciju norāžu tips
+// Function pointer type
 typedef void (*funkcija_ptr)(void);
 
-// Funkciju norāžu masīvs
+// Function pointer array
 funkcija_ptr funkcijas[2] = {
     led_on,
     led_off
 };
 
 int main(void) {
-    // Iestatām LED izvadu kā izeju (piemēram, PORTB5 - Arduino UNO iebūvētā LED)
+    // Set LED output as output (e.g., PORTB5 - Arduino UNO built-in LED)
     DDRB |= (1 << DDB5);
     
     uint8_t indekss = 0;
     
     while (1) {
-        // Tiešs funkcijas izsaukums (kompilators izmanto rcall)
+        // Direct function call (compiler uses rcall)
         delay_ms(500);
         
-        // Netiešs funkcijas izsaukums (kompilators izmanto icall)
+        // Indirect function call (compiler uses icall)
         funkcijas[indekss]();
         
-        // Mainām indeksu nākamajai funkcijai
+        // Change index for next function
         indekss = (indekss + 1) % 2;
     }
     
     return 0;
 }
 
-// LED ieslēgšanas funkcija
+// LED turn-on function
 void led_on(void) {
-    PORTB |= (1 << PORTB5);  // Ieslēdz LED
+    PORTB |= (1 << PORTB5);  // Turn on LED
 }
 
-// LED izslēgšanas funkcija
+// LED turn-off function
 void led_off(void) {
-    PORTB &= ~(1 << PORTB5);  // Izslēdz LED
+    PORTB &= ~(1 << PORTB5);  // Turn off LED
 }
 
-// Aizkaves funkcija
+// Delay function
 void delay_ms(uint16_t ms) {
-    // Vienkāršs aizkaves cikls
-    // Reālā programmā labāk izmantot taimeri
+    // Simple delay loop
+    // In real programs it's better to use a timer
     volatile uint16_t i, j;
     for (i = 0; i < ms; i++) {
         for (j = 0; j < 100; j++) {
@@ -57,14 +57,14 @@ void delay_ms(uint16_t ms) {
     }
 }
 
-// Alternatīvs veids, kā izmantot inline assembly ar icall un rcall
+// Alternative way to use inline assembly with icall and rcall
 void inline_asm_demo(void) {
     asm volatile (
-        // Tiešs rcall piemērs
+        // Direct rcall example
         "rcall led_on\n\t"
         
-        // icall piemērs (pieņemot, ka Z reģistrā ir funkcijas adrese)
-        "ldi r30, lo8(led_off)\n\t"  // Ielādē funkcijas adresi Z reģistrā
+        // icall example (assuming Z register contains function address)
+        "ldi r30, lo8(led_off)\n\t"  // Load function address to Z register
         "ldi r31, hi8(led_off)\n\t"
         "icall\n\t"
     );

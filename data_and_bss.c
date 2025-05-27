@@ -3,65 +3,65 @@
 #include <util/delay.h>
 
 // =============================================================================
-// .data sekcija - inicializēti globālie/statiskie mainīgie
+// .data section - initialized global/static variables
 // =============================================================================
 
-// Globālie inicializēti mainīgie → .data
+// Global initialized variables → .data
 int sensor_threshold = 500;                    
 char device_name[] = "ATmega328P_v1.0";       
 uint8_t status_flags = 0x55;                  
 float calibration_factor = 1.023;             
 
-// Inicializēts masīvs → .data
+// Initialized array → .data
 uint16_t lookup_table[8] = {
     100, 200, 300, 400, 500, 600, 700, 800    
 };
 
-// Konfigurācijas struktūra → .data
+// Configuration structure → .data
 struct config {
     uint8_t mode;
     uint16_t interval;
     char id[4];
 } system_config = {1, 1000, "SYS"};           
 
-// Statiski inicializēti mainīgie → .data  
+// Static initialized variables → .data
 static const uint8_t pin_mapping[4] = {2, 3, 4, 5};  
 static int error_count = 0;                   
 
 // =============================================================================
-// .bss sekcija - neinicializēti globālie/statiskie mainīgie
+// .bss section - uninitialized global/static variables
 // =============================================================================
 
-// Globālie neinicializēti mainīgie → .bss
+// Global uninitialized variables → .bss
 volatile uint16_t adc_reading;                 
 int temperature;                               
 uint32_t uptime_seconds;                       
 char message_buffer[64];                       
 
-// Neinicializēts masīvs → .bss
+// Uninitialized array → .bss
 uint8_t sensor_history[32];                    
 
-// Statiski neinicializēti mainīgie → .bss
+// Static uninitialized variables → .bss
 static uint16_t measurement_buffer[16];        
 static char debug_log[128];                    
 static volatile uint8_t timer_flag;            
 
-// Struktūra bez inicializācijas → .bss
+// Structure without initialization → .bss
 struct measurement {
     uint16_t value;
     uint8_t timestamp;
     uint8_t quality;
 } current_measurement;                         
 
-// Mainīgie, kas eksplicīti inicializēti ar 0 → .bss (ne .data!)
+// Variables explicitly initialized with 0 → .bss (not .data!)
 int zero_initialized = 0;                     
 static char empty_string[32] = {0};           
 
 // =============================================================================
-// Funkcijas
+// Functions
 // =============================================================================
 
-// ADC interrupt handler - izmanto .bss mainīgos
+// ADC interrupt handler - uses .bss variables
 ISR(ADC_vect) {
     adc_reading = ADC;
     timer_flag = 1;

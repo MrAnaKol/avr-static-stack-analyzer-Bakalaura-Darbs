@@ -3,7 +3,7 @@
 sudo apt install gcc-avr binutils-avr avr-libc
 
 # Instalēt Python
-sudo apt install python3 python3-pip
+sudo apt install python3
 
 # Pārbaude vai ir nepieciešami rīki
 avr-gcc --version

@@ -7,7 +7,6 @@ import os
 import glob
 import re
 import sys
-from pathlib import Path
 
 class BatchStackAnalyzer:
     def __init__(self, analyzer_script="avr-stack-analyzer-static.py"):
